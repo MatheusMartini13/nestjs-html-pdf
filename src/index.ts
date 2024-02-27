@@ -8,6 +8,7 @@ export const createPdf = async (filePath: string, options = {}, data = {}) => {
       headless:false,
       args: ["--no-sandbox"]
   });
+  const page = await browser.newPage();
     
     hbs.registerHelper("ifCond", function (
         v1: any, 
@@ -58,7 +59,6 @@ export const createPdf = async (filePath: string, options = {}, data = {}) => {
     
     const html = await fs.readFile(filePath, 'utf8');
     const content = hbs.compile(html)(data);
-    const page = await browser.newPage();
     await page.setContent(content);
 
     const buffer = await page.pdf({
